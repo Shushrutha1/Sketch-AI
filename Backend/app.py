@@ -605,6 +605,7 @@ def on_clear(data):
         state['stroke_history'] = []
         emit('broadcast_clear', {}, to=room_id, include_self=False)
 
+
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
     socketio.run(app, host='0.0.0.0', port=port)
