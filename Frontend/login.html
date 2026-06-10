@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-[#040712]">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sketch.AI — Authentication Portal</title>
+    
+    <!-- Production Compiled Tailwind CSS Fallback -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    <!-- Premium Google Font Variant Mapping -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #040712;
+            overflow: hidden;
+        }
+        .glass-card {
+            background: rgba(11, 17, 34, 0.45);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #2dd4bf 0%, #22d3ee 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .brand-glow {
+            box-shadow: 0 0 40px -5px rgba(45, 212, 191, 0.2);
+        }
+        .interactive-dot-matrix {
+            background-image: radial-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 28px 28px;
+        }
+        .floating {
+            animation: slowManeuver 8s ease-in-out infinite;
+        }
+        @keyframes slowManeuver {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-8px) scale(1.01); }
+        }
+    </style>
+</head>
+<body class="min-h-screen text-gray-200 flex items-center justify-center p-6 relative interactive-dot-matrix">
+
+    <!-- Ambient High-Definition Glow Backdrops -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none z-0">
+        <div class="absolute top-[-10%] left-[-20%] w-[600px] h-[600px] bg-cyan-500/10 rounded-full filter blur-[150px]"></div>
+        <div class="absolute bottom-[-10%] right-[-20%] w-[600px] h-[600px] bg-teal-500/10 rounded-full filter blur-[150px]"></div>
+    </div>
+
+    <!-- Central Interactive Split Shell Frame -->
+    <div class="relative z-10 w-full max-w-5xl grid lg:grid-cols-12 gap-10 items-center">
+        
+        <!-- Left Side: Immersive Brand Asset Frame (Hidden on Mobile) -->
+        <div class="hidden lg:flex lg:col-span-6 flex-col pr-6 floating">
+            <div class="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full border border-teal-500/20 bg-teal-500/5 text-teal-300 text-xs font-semibold uppercase max-w-max mb-6 backdrop-blur-md">
+                <span>✨ Production Environment Gate</span>
+            </div>
+            
+            <h2 class="text-4xl xl:text-5xl font-extrabold text-white tracking-tight leading-tight">
+                Enter your terminal.<br>
+                Resume generation.<br>
+                <span class="gradient-text">Sync with the Cluster.</span>
+            </h2>
+            
+            <p class="mt-4 text-gray-400 text-sm leading-relaxed max-w-md">
+                Log back into your persistent vector engine node space. All custom room setups, leveling parameters, and drawing pipelines will initialize immediately upon session handshake.
+            </p>
+        </div>
+
+        <!-- Right Side: Clean Glassmorphism Authentication Form (Spans 6 Cols) -->
+        <div class="w-full sm:max-w-md mx-auto lg:col-span-6">
+            <div class="glass-card rounded-[2.5rem] p-8 sm:p-10 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.7)]">
+                
+                <!-- Brand Title Context -->
+                <div class="mb-8">
+                    <div class="flex items-center space-x-2.5 mb-2">
+                        <div class="w-6 h-6 rounded-md bg-gradient-to-br from-teal-400 to-cyan-500 flex items-center justify-center text-gray-950 font-black brand-glow">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                            </svg>
+                        </div>
+                        <span class="text-sm font-bold uppercase tracking-wider text-white">Sketch<span class="text-teal-400">.AI</span></span>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white tracking-tight">Welcome Back</h3>
+                    <p class="text-gray-400 text-xs mt-1">Authenticate identity token to unlock drawing canvas modules.</p>
+                </div>
+
+                <!-- Input Interactive Target Form -->
+                <form id="loginForm" class="space-y-5" onsubmit="executeLogin(event)">
+                    
+                    <div>
+                        <label class="block text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-2">Username / Node ID</label>
+                        <input 
+                            type="text" 
+                            id="username" 
+                            name="username" 
+                            required 
+                            placeholder="Enter your unique nickname"
+                            class="w-full px-4 py-3 rounded-xl bg-black bg-opacity-40 border border-gray-800 text-gray-200 text-sm placeholder-gray-600 focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/10 transition-all">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-2">Secure Verification Password</label>
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            required 
+                            placeholder="••••••••"
+                            class="w-full px-4 py-3 rounded-xl bg-black bg-opacity-40 border border-gray-800 text-gray-200 text-sm placeholder-gray-600 focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/10 transition-all">
+                    </div>
+
+                    <button 
+                        type="submit" 
+                        class="w-full py-3.5 mt-2 rounded-xl bg-gradient-to-r from-teal-400 to-cyan-500 text-gray-950 font-bold tracking-wide text-sm shadow-xl brand-glow transform active:scale-[0.99] hover:opacity-95 transition-all focus:outline-none">
+                        Authenticate Parameters
+                    </button>
+                </form>
+
+                <!-- Onboarding Redirection Module Footer -->
+                <div class="text-center mt-6 border-t border-gray-900/60 pt-5">
+                    <p class="text-xs text-gray-500">
+                        Missing registration record? 
+                        <a href="register.html" class="text-teal-400 font-medium hover:underline ml-1">Initialize account vectors</a>
+                    </p>
+                </div>
+
+            </div>
+        </div>
+        
+    </div>
+
+    <!-- Fallback Handshake Interfacing Native Script Routing -->
+    <script>
+       async function executeLogin(e) {
+    e.preventDefault();
+    
+    const usernameInput = document.getElementById('username').value.trim();
+    const passwordInput = document.getElementById('password').value;
+
+    const payload = { 
+        username: usernameInput, 
+        password: passwordInput 
+    };
+    
+    try {
+        // FIXED: Maps your login request straight to the container's authentication engine
+        const res = await fetch(`${window.location.origin}/api/auth/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        
+        const data = await res.json();
+        
+        if (res.ok) {
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('username', data.username);
+            window.location.href = 'dashboard.html';
+        } else {
+            alert(data.message || "Invalid authentication properties.");
+        }
+    } catch (err) {
+        console.error("Login authorization network fault:", err);
+        alert("Failed to reach database authentication service node.");
+    }
+}
+    </script>
+</body>
+</html>

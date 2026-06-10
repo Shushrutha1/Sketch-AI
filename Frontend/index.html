@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-[#040712]">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sketch.AI — Collaborative Real-Time AI Drawing Platform</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #040712;
+            overflow-x: hidden;
+        }
+        .glass-card {
+            background: rgba(11, 17, 34, 0.45);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .glass-nav {
+            background: rgba(4, 7, 18, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #2dd4bf 0%, #06b6d4 50%, #6366f1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .brand-glow {
+            box-shadow: 0 0 40px -5px rgba(45, 212, 191, 0.2);
+        }
+        .interactive-dot-matrix {
+            background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        .floating {
+            animation: slowManeuver 6s ease-in-out infinite;
+        }
+        @keyframes slowManeuver {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body class="min-h-screen text-gray-200 flex flex-col justify-between relative antialiased interactive-dot-matrix">
+
+    <div class="absolute inset-0 overflow-hidden pointer-events-none z-0">
+        <div class="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] bg-teal-500/10 rounded-full filter blur-[140px]"></div>
+        <div class="absolute top-[30%] right-[-20%] w-[700px] h-[700px] bg-indigo-500/5 rounded-full filter blur-[160px]"></div>
+        <div class="absolute bottom-[-10%] left-[20%] w-[500px] h-[500px] bg-cyan-500/10 rounded-full filter blur-[130px]"></div>
+    </div>
+
+    <nav class="glass-nav sticky top-0 w-full z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 sm:px-8 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3 group cursor-pointer">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-teal-400 to-cyan-500 flex items-center justify-center text-gray-950 font-black brand-glow">
+                    <svg class="w-4 h-4 text-gray-950" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
+                    </svg>
+                </div>
+                <span class="text-lg font-bold tracking-tight text-white group-hover:text-teal-400 transition-colors">Sketch<span class="text-teal-400">.AI</span></span>
+            </div>
+            
+            <div class="flex items-center space-x-8">
+                <a href="login.html" class="text-xs font-semibold uppercase tracking-wider text-gray-400 hover:text-white transition-colors">Log In</a>
+                <a href="register.html" class="text-xs font-bold uppercase tracking-wider bg-gradient-to-r from-teal-400 to-cyan-500 text-gray-950 px-5 py-2.5 rounded-lg shadow-lg brand-glow transform active:scale-95 transition-all">Play Live Sandbox</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="relative max-w-7xl mx-auto px-6 sm:px-8 py-12 lg:py-20 z-10 w-full flex-1 grid lg:grid-cols-12 gap-12 items-center">
+        
+        <div class="lg:col-span-7 text-left flex flex-col justify-center">
+            <div class="inline-flex items-center space-x-2.5 px-3.5 py-1.5 rounded-full border border-teal-500/20 bg-teal-500/5 text-teal-300 text-xs font-semibold tracking-wide uppercase max-w-max mb-6 backdrop-blur-md">
+                <span class="flex h-1.5 w-1.5 relative">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-teal-400"></span>
+                </span>
+                <span>v2.4 Neural Cluster Inference Active</span>
+            </div>
+
+            <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight text-white leading-[1.1] mb-6">
+                Draw vector shapes.<br class="hidden sm:inline">
+                Challenge nodes.<br class="hidden sm:inline">
+                <span class="gradient-text">Outsmart the KNN AI.</span>
+            </h1>
+
+            <p class="text-gray-400 text-sm sm:text-base max-w-xl mb-8 leading-relaxed">
+                Step into a low-latency, real-time multiplayer drawing room. Sketch canvas pathways fluidly alongside your team while a multi-threaded Python feature matrix deciphers strokes instantly.
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-center gap-4">
+                <button onclick="window.location.href='register.html'" class="w-full sm:w-auto bg-gradient-to-r from-teal-400 to-cyan-500 text-gray-950 px-8 py-3.5 rounded-xl font-bold tracking-wide text-sm shadow-xl brand-glow transform hover:translate-y-[-2px] active:translate-y-0 transition-all focus:outline-none">
+                    Initialize Cluster Session
+                </button>
+                <button onclick="window.location.href='leaderboard.html'" class="w-full sm:w-auto border border-gray-800 hover:border-gray-700 bg-gray-900/40 text-gray-300 hover:text-white px-8 py-3.5 rounded-xl font-semibold text-sm transition-all focus:outline-none">
+                    View Live Leaderboards
+                </button>
+            </div>
+
+            <div class="grid grid-cols-3 gap-4 mt-12 pt-8 border-t border-gray-900/60 max-w-lg">
+                <div>
+                    <p class="text-xl font-bold text-white tracking-tight font-mono">&lt; 40ms</p>
+                    <p class="text-[10px] text-gray-500 uppercase font-semibold tracking-wider mt-1">Socket Sync Latency</p>
+                </div>
+                <div>
+                    <p class="text-xl font-bold text-white tracking-tight font-mono">98.4%</p>
+                    <p class="text-[10px] text-gray-500 uppercase font-semibold tracking-wider mt-1">Model Inference Hit</p>
+                </div>
+                <div>
+                    <p class="text-xl font-bold text-teal-400 tracking-tight font-mono">MongoDB</p>
+                    <p class="text-[10px] text-gray-500 uppercase font-semibold tracking-wider mt-1">Persistent Logs</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="lg:col-span-5 w-full hidden lg:block floating">
+            <div class="glass-card rounded-[2rem] p-6 shadow-2xl relative overflow-hidden">
+                <div class="flex justify-between items-center border-b border-gray-900/60 pb-4 mb-4">
+                    <div class="flex space-x-1.5">
+                        <span class="w-2.5 h-2.5 rounded-full bg-red-500/40"></span>
+                        <span class="w-2.5 h-2.5 rounded-full bg-yellow-500/40"></span>
+                        <span class="w-2.5 h-2.5 rounded-full bg-green-500/40"></span>
+                    </div>
+                    <span class="text-[10px] font-mono tracking-widest text-gray-600 uppercase font-bold">Inference_Engine_Output</span>
+                </div>
+
+                <div class="bg-[#0b111e] rounded-xl h-56 border border-gray-900/80 flex items-center justify-center relative shadow-inner">
+                    <svg class="w-40 h-40 text-teal-500/20 absolute opacity-80" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M20,50 Q40,20 60,80 T100,30" stroke-dasharray="2 2"/>
+                        <circle cx="20" cy="50" r="3" fill="#2dd4bf"/>
+                        <circle cx="60" cy="80" r="3" fill="#2dd4bf"/>
+                        <circle cx="45" cy="40" r="4" fill="#22d3ee" class="animate-ping"/>
+                    </svg>
+                    
+                    <span class="absolute top-3 right-3 bg-teal-500/10 text-teal-400 text-[10px] font-mono border border-teal-500/20 px-2 py-0.5 rounded-md">Vector Sync</span>
+                    <span class="text-xs font-mono text-gray-500 tracking-wide select-none">Reading absolute stroke paths...</span>
+                </div>
+
+                <div class="mt-4 p-3.5 bg-black bg-opacity-40 rounded-xl border border-gray-900/80 flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <span class="text-base">🤖</span>
+                        <div class="flex flex-col">
+                            <span class="text-[9px] uppercase font-bold text-gray-500 tracking-wider">KNN Prediction Guess</span>
+                            <span class="font-bold text-xs text-teal-400 font-mono tracking-wide mt-0.5">SPACESHIP [Class Match]</span>
+                        </div>
+                    </div>
+                    <span class="text-[10px] font-mono font-bold text-gray-600">Acc: 0.942</span>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="relative w-full max-w-7xl mx-auto px-6 sm:px-8 py-6 border-t border-gray-900/60 flex flex-col sm:flex-row space-y-3 sm:space-y-0 justify-between items-center text-xs text-gray-600 z-10">
+        <div>
+            &copy; 2026 Sketch.AI Platform. Core stack topology running flawlessly.
+        </div>
+        <div class="flex space-x-6 font-medium">
+            <a href="#" class="hover:text-gray-400 transition-colors">Cluster Architecture</a>
+            <a href="#" class="hover:text-gray-400 transition-colors">Privacy Policy</a>
+        </div>
+    </footer>
+
+</body>
+</html>

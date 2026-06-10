@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sketch.AI — Game Dashboard</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            box-sizing: border-box;
+            transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+        }
+        
+        /* Dark Theme Variables */
+        .theme-dark {
+            --bg-main: #040712;
+            --bg-card: rgba(11, 17, 34, 0.6);
+            --bg-input: rgba(0, 0, 0, 0.4);
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --border-color: rgba(255, 255, 255, 0.06);
+            --bg-nav: rgba(4, 7, 18, 0.8);
+            --card-gradient-1: linear-gradient(135deg, rgba(20, 184, 166, 0.1) 0%, rgba(0, 0, 0, 0) 100%);
+            --card-gradient-2: linear-gradient(135deg, rgba(6, 182, 212, 0.1) 0%, rgba(0, 0, 0, 0) 100%);
+        }
+        
+        /* Light Theme Variables */
+        .theme-light {
+            --bg-main: #f8fafc;
+            --bg-card: #ffffff;
+            --bg-input: #f1f5f9;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --bg-nav: #ffffff;
+            --card-gradient-1: linear-gradient(135deg, rgba(20, 184, 166, 0.05) 0%, rgba(0, 0, 0, 0) 100%);
+            --card-gradient-2: linear-gradient(135deg, rgba(6, 182, 212, 0.05) 0%, rgba(0, 0, 0, 0) 100%);
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+        }
+        .custom-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+        }
+        .custom-nav {
+            background-color: var(--bg-nav);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .text-muted {
+            color: var(--text-muted);
+        }
+        .animated-card-1 { background: var(--card-gradient-1); }
+        .animated-card-2 { background: var(--card-gradient-2); }
+        
+        /* Smooth scale bounce on card hover */
+        .graphic-card {
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .graphic-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 20px -8px rgba(20, 184, 166, 0.2);
+        }
+    </style>
+</head>
+<body class="theme-dark min-h-screen flex flex-col justify-between antialiased" id="bodyThemeTag" onload="primeDashboard()">
+
+    <nav class="custom-nav sticky top-0 w-full z-40 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
+            
+            <div class="flex items-center space-x-2.5 cursor-pointer" onclick="window.location.href='index.html'">
+                <div class="w-7 h-7 rounded-lg bg-gradient-to-br from-teal-400 to-cyan-500 flex items-center justify-center text-gray-950 font-black shadow-md">
+                    ✏️
+                </div>
+                <span class="text-base font-bold tracking-tight">Sketch<span class="text-teal-500">.AI</span></span>
+            </div>
+
+            <div class="flex items-center space-x-3 sm:space-x-6">
+                <button onclick="togglePageTheme()" class="p-2 rounded-xl bg-gray-500/10 hover:bg-gray-500/20 focus:outline-none text-xs font-semibold" id="themeBtnToggle">
+                    ☀️ Light Mode
+                </button>
+
+                <div class="flex items-center space-x-1.5 bg-yellow-500/10 px-2.5 py-1 rounded-lg border border-yellow-500/20">
+                    <span class="text-xs">🔥</span>
+                    <span id="userStreak" class="text-xs font-bold text-yellow-500 font-mono">1 Day</span>
+                </div>
+
+                <div class="flex items-center space-x-1.5 bg-teal-500/10 px-2.5 py-1 rounded-lg border border-teal-500/20">
+                    <span class="text-xs">🪙</span>
+                    <span id="userCoins" class="text-xs font-bold text-teal-500 font-mono">100</span>
+                </div>
+
+                <div class="flex items-center space-x-2.5">
+                    <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-teal-400 to-cyan-500 text-gray-950 font-bold text-xs flex items-center justify-center shadow font-mono" id="userAvatar">P</div>
+                    <div class="flex flex-col text-left">
+                       <span id="userIdent" class="text-lg font-bold text-teal-400">Loading...</span>
+                    </div>
+                    <button onclick="logout()" class="text-xs font-bold text-red-500 hover:text-red-400 px-2 py-1 focus:outline-none ml-1">Exit</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto w-full px-4 sm:px-6 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1 items-start relative">
+        
+        <div class="lg:col-span-4 flex flex-col gap-6 w-full">
+            <div class="custom-card rounded-2xl p-5 shadow-sm text-left">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-teal-500">
+                        🏆 Global Leaderboard
+                    </h3>
+                    <a href="leaderboard.html" class="text-[11px] text-muted hover:text-teal-500 font-semibold">View All &rarr;</a>
+                </div>
+                <div id="leadContainer" class="space-y-2"></div>
+            </div>
+        </div>
+
+        <div class="lg:col-span-8 flex flex-col gap-6 w-full">
+            
+            <div class="custom-card rounded-2xl p-6 shadow-sm text-left">
+                <div>
+                    <h2 class="text-lg font-bold tracking-tight">Game Arena</h2>
+                    <p class="text-muted text-xs mt-0.5">Jump straight into online public matches or securely connect to localized friend lobbies.</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-5">
+                    <button onclick="window.location.href='rooms_global.html'" class="bg-gray-500/10 hover:bg-teal-500/20 border border-gray-500/10 hover:border-teal-500/40 text-left p-3.5 rounded-xl transition focus:outline-none group">
+                        <span class="text-xl block mb-1">🌐</span>
+                        <span class="block font-bold text-xs text-gray-200 group-hover:text-teal-400">Browse Global Rooms</span>
+                        <span class="text-[10px] text-muted block mt-0.5">Join any open dynamic canvas server match instantly.</span>
+                    </button>
+
+                    <button onclick="initializeCustomRoom()" class="bg-gradient-to-br from-teal-400 to-cyan-500 hover:from-teal-300 hover:to-cyan-400 text-gray-950 text-left p-3.5 rounded-xl transition focus:outline-none shadow-md transform active:scale-95">
+                        <span class="text-xl block mb-1">➕</span>
+                        <span class="block font-bold text-xs">Create New Room</span>
+                        <span class="text-[10px] text-gray-900/80 block mt-0.5">Deploy customized canvas options (Public or Private).</span>
+                    </button>
+
+                    <button onclick="joinPrivateLobby()" class="bg-gray-500/10 hover:bg-cyan-500/20 border border-gray-500/10 hover:border-cyan-500/40 text-left p-3.5 rounded-xl transition focus:outline-none group">
+                        <span class="text-xl block mb-1">🔑</span>
+                        <span class="block font-bold text-xs text-gray-200 group-hover:text-cyan-400">Join Private Room</span>
+                        <span class="text-[10px] text-muted block mt-0.5">Redeem secure invite links or passkey tokens.</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                
+                <div class="custom-card graphic-card animated-card-1 rounded-2xl p-5 text-left flex flex-col justify-between border-teal-500/10">
+                    <div>
+                        <div class="flex items-center space-x-2 mb-3">
+                            <span class="p-1.5 bg-teal-500/10 rounded-lg text-sm">🎮</span>
+                            <h4 class="font-bold text-xs uppercase tracking-wider text-teal-400">How to Play</h4>
+                        </div>
+                        <ul class="space-y-2.5 text-xs">
+                            <li class="flex items-start space-x-2">
+                                <span class="text-teal-400 font-mono font-bold">1.</span>
+                                <span class="text-muted"><strong class="text-gray-200">Get Prompted:</strong> One player draws a secret word chosen dynamically.</span>
+                            </li>
+                            <li class="flex items-start space-x-2">
+                                <span class="text-teal-400 font-mono font-bold">2.</span>
+                                <span class="text-muted"><strong class="text-gray-200">Live Guessing:</strong> Other lobby players type guesses into chat stream live.</span>
+                            </li>
+                            <li class="flex items-start space-x-2">
+                                <span class="text-teal-400 font-mono font-bold">3.</span>
+                                <span class="text-muted"><strong class="text-gray-200">Score & Climb:</strong> Speed counts! Earn massive profile tokens for early correct solutions.</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-gray-500/5 text-[10px] text-teal-500/70 font-semibold tracking-wide uppercase">
+                        ⚡ Multicast Canvas Streaming Active
+                    </div>
+                </div>
+
+                <div class="custom-card graphic-card animated-card-2 rounded-2xl p-5 text-left flex flex-col justify-between border-cyan-500/10">
+                    <div>
+                        <div class="flex items-center space-x-2 mb-3">
+                            <span class="p-1.5 bg-cyan-500/10 rounded-lg text-sm">🤖</span>
+                            <h4 class="font-bold text-xs uppercase tracking-wider text-cyan-400">AI Integration Architecture</h4>
+                        </div>
+                        <p class="text-xs text-muted leading-relaxed mb-2">
+                            Our system incorporates deep vision classification loops operating alongside user interactions:
+                        </p>
+                        <ul class="space-y-1.5 text-xs text-muted">
+                            <li class="flex items-center space-x-1.5">
+                                <span class="w-1 h-1 rounded-full bg-cyan-400"></span>
+                                <span>Real-time vector stroke matrix mapping.</span>
+                            </li>
+                            <li class="flex items-center space-x-1.5">
+                                <span class="w-1 h-1 rounded-full bg-cyan-400"></span>
+                                <span>Co-pilot sketch hinting assistants.</span>
+                            </li>
+                            <li class="flex items-center space-x-1.5">
+                                <span class="w-1 h-1 rounded-full bg-cyan-400"></span>
+                                <span>Automated drawing verification checkpoints.</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-gray-500/5 text-[10px] text-cyan-500/70 font-semibold tracking-wide uppercase">
+                        🧠 Inference Processing Pipeline Syncing
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <footer class="w-full max-w-7xl mx-auto px-6 py-4 text-center text-xs text-muted border-t border-gray-500/10">
+        &copy; 2026 Sketch.AI Platform. Database streaming synchronization paths online.
+    </footer>
+
+    <script>
+        function togglePageTheme() {
+            const body = document.getElementById('bodyThemeTag');
+            const toggleBtn = document.getElementById('themeBtnToggle');
+            
+            if (body.classList.contains('theme-dark')) {
+                body.classList.remove('theme-dark');
+                body.classList.add('theme-light');
+                toggleBtn.innerText = "🌙 Dark Mode";
+                localStorage.setItem('theme_preference', 'light');
+            } else {
+                body.classList.remove('theme-light');
+                body.classList.add('theme-dark');
+                toggleBtn.innerText = "☀️ Light Mode";
+                localStorage.setItem('theme_preference', 'dark');
+            }
+        }
+
+        function logout() { 
+            localStorage.clear(); 
+            window.location.href = 'login.html'; 
+        }
+
+        async function primeDashboard() {
+            const cachedTheme = localStorage.getItem('theme_preference');
+            if (cachedTheme === 'light') togglePageTheme();
+
+            const token = localStorage.getItem('token');
+            if(!token) { 
+                window.location.href = 'login.html'; 
+                return; 
+            }
+
+            const currentUsername = localStorage.getItem('username') || 'Player';
+            document.getElementById('userIdent').innerText = currentUsername;
+            document.getElementById('userAvatar').innerText = currentUsername.charAt(0).toUpperCase();
+
+            handleDayStreakIncrements();
+
+            let loadedLeads = [];
+
+            // FETCH GLOBAL LEADERBOARD RANKINGS
+            try {
+                const leadRes = await fetch(`${window.location.origin}/api/leaderboard`);
+                if (leadRes.ok) {
+                    loadedLeads = await leadRes.json();
+                }
+
+                if (!Array.isArray(loadedLeads) || loadedLeads.length === 0) {
+                    loadedLeads = [
+                        { username: "shushu", score: 270000 },
+                        { username: "admin", score: 12000 },
+                        { username: "aa", score: 0 }
+                    ];
+                }
+
+                const lContainer = document.getElementById('leadContainer');
+                lContainer.innerHTML = '';
+                loadedLeads.forEach((l, idx) => {
+                    lContainer.innerHTML += `
+                        <div class="flex justify-between items-center text-xs p-2.5 bg-black bg-opacity-10 border border-gray-500/10 rounded-xl">
+                            <span class="text-muted font-medium"><span class="font-bold text-gray-500 mr-1">#${idx+1}</span> ${l.username}</span>
+                            <span class="text-teal-500 font-mono font-bold">${l.score} <span class="text-[10px] font-normal text-muted">pts</span></span>
+                        </div>`;
+                });
+            } catch (leadError) {
+                console.error("Leaderboard component error:", leadError);
+            }
+
+            // ASSIGN COINS
+            try {
+                const myLeaderboardRecord = loadedLeads.find(u => u.username.toLowerCase() === currentUsername.toLowerCase());
+                if (myLeaderboardRecord) {
+                    const dynamicCalculatedCoins = myLeaderboardRecord.score > 0 ? (myLeaderboardRecord.score / 10) : 100;
+                    document.getElementById('userCoins').innerText = Math.round(dynamicCalculatedCoins);
+                } else {
+                    const profileRes = await fetch(`${window.location.origin}/api/user/profile`, {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    if (profileRes.ok) {
+                        const userData = await profileRes.json();
+                        document.getElementById('userCoins').innerText = userData.coins !== undefined ? userData.coins : 100;
+                    } else {
+                        document.getElementById('userCoins').innerText = "100";
+                    }
+                }
+            } catch (coinError) {
+                document.getElementById('userCoins').innerText = "100";
+            }
+        }
+
+        function handleDayStreakIncrements() {
+            const lastLoginString = localStorage.getItem('last_login_date_stamp');
+            const todayString = new Date().toDateString();
+            let streakCount = parseInt(localStorage.getItem('user_streak_count') || '1');
+
+            if (lastLoginString) {
+                const lastLoginDate = new Date(lastLoginString);
+                const todayDate = new Date(todayString);
+                const dayDifference = Math.floor((todayDate - lastLoginDate) / (1000 * 60 * 60 * 24));
+
+                if (dayDifference === 1) {
+                    streakCount += 1;
+                } else if (dayDifference > 1) {
+                    streakCount = 1;
+                }
+            }
+            
+            localStorage.setItem('last_login_date_stamp', todayString);
+            localStorage.setItem('user_streak_count', streakCount.toString());
+            document.getElementById('userStreak').innerText = `${streakCount} ${streakCount === 1 ? 'Day' : 'Days'}`;
+        }
+
+        // Updated Creation handling to request Room Visbility type
+        // Updated Creation handling with backend API generation
+async function initializeCustomRoom() {
+    const rName = prompt("Enter a unique name for your new room (or leave blank to auto-generate):");
+    const roomNameInput = rName ? rName.trim() : "Custom Room";
+    
+    const isPrivate = confirm("Do you want this room to be PRIVATE?\n\n(Click 'OK' for Private, or 'Cancel' for a public visible room.)");
+    const token = localStorage.getItem('token');
+
+    try {
+        // We ping our API to safely register the room on the database side
+        const response = await fetch(`${window.location.origin}/api/rooms/create`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                name: roomNameInput,
+                isPrivate: isPrivate
+            })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            if (isPrivate) {
+                alert(`✨ Private Room Created!\nYour 4-Digit Access Code is: ${data.room_id}\n\nShare this code with your friends to let them join.`);
+            }
+            // Route straight to the room page
+            window.location.href = `room.html?room=${encodeURIComponent(data.room_id)}`;
+        } else {
+            alert(`Error: ${data.message || 'Failed to create room.'}`);
+        }
+    } catch (err) {
+        console.error("Room creation error:", err);
+        alert("Server communication error while spinning up your room slot.");
+    }
+}
+
+// Updated Join handling to verify against the backend database map
+async function joinPrivateLobby() {
+    const inviteCode = prompt("Enter the 4-Digit Private Room Code to enter:");
+    if (!inviteCode || inviteCode.trim() === "") return;
+    
+    const sanitizedCode = inviteCode.trim().toUpperCase(); // Keeps codes unified
+    const token = localStorage.getItem('token');
+
+    try {
+        // Check with the server if this specific room slot is active and valid
+        const response = await fetch(`${window.location.origin}/api/rooms/verify/${sanitizedCode}`, {
+            method: 'GET',
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.exists) {
+            window.location.href = `room.html?room=${encodeURIComponent(sanitizedCode)}`;
+        } else {
+            // Throw explicit error if the room doesn't exist or is closed
+            alert(`🛑 Access Denied: No active private room matches code "${sanitizedCode}". Please verify your credentials.`);
+        }
+    } catch (err) {
+        console.error("Verification error:", err);
+        alert("Error validating private access token against database paths.");
+    }
+}
+    </script>
+</body>
+</html>
