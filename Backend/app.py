@@ -22,7 +22,7 @@ WORD_POOL = {
 CATEGORIES = ["Animal", "Object", "Food", "Vehicle", "Nature"]
 # Setup paths to find your Frontend folder files easily
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-FRONTEND_DIR = os.path.abspath(os.path.join(BASE_DIR, '../Frontend'))
+FRONTEND_DIR = os.path.abspath(os.path.join(BASE_DIR, './Frontend'))
 
 # ==================== ADVANCED DATA MODELS & ASSIGNMENTS ====================
 ACHIEVEMENTS_MATRIX = {
@@ -82,7 +82,9 @@ db.rooms.create_index("room_id", unique=True)
 db.leaderboard.create_index([("score", -1)])
 
 # --- AI MACHINE LEARNING MODEL ---
-MODEL_PATH = os.path.join(BASE_DIR, '../ML/saved_model/knn_model.pkl')
+MODEL_PATH = os.path.abspath(
+    os.path.join(BASE_DIR, '..', 'ML', 'saved_model', 'knn_model.pkl')
+)
 try:
     knn_classifier = joblib.load(MODEL_PATH)
 except Exception:
