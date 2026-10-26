@@ -60,7 +60,7 @@ def calculate_xp_and_level_up(username, xp_gained):
 
 app = Flask(__name__, static_folder=FRONTEND_DIR, static_url_path="")
 CORS(app, resources={r"/api/*": {"origins": "*"}})
-socketio = SocketIO(app, cors_allowed_origins="*", async_mode='threading')
+socketio = SocketIO(app, cors_allowed_origins="*", async_mode='eventlet')
 
 from Backend.auth import hash_password, check_password, generate_token, token_required
 from Backend.feature_extractor import FeatureExtractor
@@ -276,7 +276,7 @@ def create_room(current_user):
         'active': False,
         'is_private': is_private,
         'players_count': 0,
-        'created_at': datetime.datetime.utcnow()
+        'created_at': datetime.utcnow()
     }
     
     db.rooms.insert_one(new_room_doc)
