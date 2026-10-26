@@ -22,7 +22,8 @@ WORD_POOL = {
 CATEGORIES = ["Animal", "Object", "Food", "Vehicle", "Nature"]
 # Setup paths to find your Frontend folder files easily
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-FRONTEND_DIR = os.path.abspath(os.path.join(BASE_DIR, './Frontend'))
+FRONTEND_DIR = os.path.abspath(os.path.join(BASE_DIR, '..', 'Frontend'))
+
 
 # ==================== ADVANCED DATA MODELS & ASSIGNMENTS ====================
 ACHIEVEMENTS_MATRIX = {
