@@ -67,9 +67,14 @@ from Backend.feature_extractor import FeatureExtractor
 from Backend.ai_agent import AIAgent
 
 # --- LOCAL WINDOWS MONGODB CONNECTION ---
-MONGO_URI = "mongodb://localhost:27017/sketch_ai"
-client = MongoClient(MONGO_URI)
-db = client['sketch_ai']
+# --- MONGODB ATLAS CONNECTION ---
+MONGO_URI = os.environ.get("MONGO_URI")
+
+if not MONGO_URI:
+    raise RuntimeError("MONGO_URI environment variable is not configured")
+
+client = MongoClient(MONGO_URI, serverSelectionTimeoutMS=10000)
+db = client["sketch_ai"]
 
 # Setup simple tables (collections) for your game data
 db.users.create_index("username", unique=True)
